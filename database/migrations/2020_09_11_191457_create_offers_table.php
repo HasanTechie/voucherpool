@@ -19,7 +19,7 @@ class CreateOffersTable extends Migration
             $table->string('name');
             $table->double('discount', 5, 2)->unsigned();
             $table->date('expiry');
-            
+
             $table->timestamps();
         });
     }
