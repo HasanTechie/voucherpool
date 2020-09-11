@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Recipient;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CodeController extends Controller
 {
 
+    /*
+     * Extra: For a given Email, return all his valid Voucher Codes with the Name of the Special Offer
+     */
     public function listOfCodesByEmail($email)
     {
 
@@ -31,12 +35,26 @@ class CodeController extends Controller
                 ];
             }
 
-            return response()->json(
-                [
-                    'code' => 200,
-                    'message' => 'Successful',
-                    'vouchers' => $vcodes
-                ], 200);
+            if (isset($vcodes)) {
+
+                return response()->json
+                (
+                    [
+                        'code' => 200,
+                        'message' => 'Successful',
+                        'vouchers' => $vcodes
+                    ], 200
+                );
+            } else {
+                return response()->json
+                (
+                    [
+                        'code' => 200,
+                        'message' => 'No More Offers left for : ' . $recipient->email . '',
+                    ], 200
+                );
+            }
+
 
         } else {
             return response()->json(
@@ -45,6 +63,49 @@ class CodeController extends Controller
                     'message' => 'Invalid email address.'
                 ], 400);
         }
+    }
+
+    /*
+     * Provide an endpoint, reachable via HTTP, which receives a Voucher Code and Email and validates
+     * the Voucher Code. In Case it is valid, return the Percentage Discount and set the date of usage
+     */
+
+    public function codeActivationByEmailAndCode(Request $request)
+    {
+
+        $recipient = Recipient::where('email', $request->input('email'))->first();
+
+        if (!$recipient) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Invalid email address'
+            ], 400);
+        }
+
+        $vCode = $recipient->codes()
+            ->select(['codes.id', 'offers.discount'])
+            ->join('offers', 'offers.id', '=', 'codes.offer_id')
+            ->where('codes.code', $request->input('code'))
+            ->whereNull('codes.used_on')
+            ->where('offers.expiry', '>=', Carbon::today())
+            ->first();
+
+        if (!$vCode) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Invalid code.'
+            ], 400);
+        }
+
+        DB::table('codes')
+            ->where('id', $vCode->id)
+            ->update(['used_on' => Carbon::now()]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Successful',
+            'discount' => number_format($vCode->discount, 2)
+        ]);
     }
 
     /**
