@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Recipient extends Model
 {
     use HasFactory;
+
+    public function codes()
+    {
+        return $this->hasMany(Code::class);
+    }
 }
