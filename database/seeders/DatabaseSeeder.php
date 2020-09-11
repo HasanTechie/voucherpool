@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('GenerateFakeData');
+        $this->call(GenerateFakeData::class);
         // User::factory(10)->create();
     }
 }
