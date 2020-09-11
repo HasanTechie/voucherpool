@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecipientsTable extends Migration
+class CreateOffersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateRecipientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('recipients', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
-            $table->string('email')->unique();
-
+            $table->double('discount', 5, 2)->unsigned();
+            $table->date('expiry');
+            
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateRecipientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipients');
+        Schema::dropIfExists('offers');
     }
 }

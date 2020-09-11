@@ -15,9 +15,11 @@ class CreateCodesTable extends Migration
     {
         Schema::create('codes', function (Blueprint $table) {
             $table->id();
+
             $table->integer('recipient_id')->unsigned();
             $table->string('code');
             $table->timestamp('used_on')->nullable();
+
             $table->timestamps();
         });
     }
