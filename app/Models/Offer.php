@@ -9,6 +9,8 @@ class Offer extends Model
 {
     use HasFactory;
 
+    protected $dates = ['expiry'];
+
     public function codes()
     {
         return $this->hasMany(Code::class);
