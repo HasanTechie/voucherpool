@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use \Faker\Factory;
 
 class GenerateFakeData extends Seeder
@@ -15,19 +17,13 @@ class GenerateFakeData extends Seeder
     public function run()
     {
         //
-        dd();
         $faker = Factory::create();
 
         $recipients = [];
 
-        for ($i = 0; $i < 99; $i++) {
-            $recipients[] = DB::table('recipients')
-                ->insertGetId([
-                    'name'          => $faker->name,
-                    'email'         => $faker->unique()->email,
-                    'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
-                    'updated_at'    => Carbon::now()->format('Y-m-d H:i:s'),
-                ]);
+        for($i = 0; $i<99; $i++){
+            echo $i . "\n";
         }
+
     }
 }
