@@ -15,11 +15,6 @@ use App\Http\Controllers\CodeController;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
-
 /*
  * Sample GET API : http://voucherpool.test/api/codes/lboyer@hotmail.com
  */

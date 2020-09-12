@@ -17,7 +17,6 @@ class GenerateFakeData extends Seeder
      */
     public function run()
     {
-        //
         $faker = Factory::create();
 
         $recipients = [];

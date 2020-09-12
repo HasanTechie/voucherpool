@@ -127,18 +127,13 @@ class CodeController extends Controller
 
         $errors = 0;
         foreach ($recipients as $recipient) {
-            if (get_class($recipient) == 'App\Models\Recipient') {
-                $vCode = new Code([
-                    'offer_id' => $offer->id,
-                    'recipient_id' => $recipient->id,
-                    'code' => Str::random(8),
-                ]);
+            $vCode = new Code([
+                'offer_id' => $offer->id,
+                'recipient_id' => $recipient->id,
+                'code' => Str::random(8),
+            ]);
 
-                $vCode->save();
-
-            } else {
-                $errors++;
-            }
+            $vCode->save();
         }
 
         if ($errors == 0) {
