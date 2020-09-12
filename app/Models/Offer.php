@@ -11,6 +11,8 @@ class Offer extends Model
 
     protected $dates = ['expiry'];
 
+    protected $fillable = ['name', 'discount', 'expiry'];
+
     public function codes()
     {
         return $this->hasMany(Code::class);

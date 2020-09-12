@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recipient;
+use App\Models\Offer;
+use App\Models\Code;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CodeController extends Controller
 {
@@ -24,7 +27,6 @@ class CodeController extends Controller
                 ->join('offers', 'offers.id', '=', 'codes.offer_id')
                 ->whereNull('codes.used_on')
                 ->where('offers.expiry', '>=', Carbon::today())->get();
-
 
             foreach ($codes as $code) {
                 $vcodes[] = [
@@ -106,6 +108,45 @@ class CodeController extends Controller
             'message' => 'Successful',
             'discount' => number_format($vCode->discount, 2)
         ]);
+    }
+
+    /*
+     * For a given Special Offer and an expiration date generate for each Recipient a Voucher Code
+     */
+    public function codeGeneration(Request $request)
+    {
+
+        $offer = new Offer([
+            'name' => $request->input('offer_name'),
+            'discount' => $request->input('discount'),
+            'expiry' => Carbon::createFromFormat('d/m/Y', $request->input('expiry')),
+        ]);
+        $offer->save();
+
+        $recipients = Recipient::get();
+
+        $errors = 0;
+        foreach ($recipients as $recipient) {
+            if (get_class($recipient) == 'App\Models\Recipient') {
+                $vCode = new Code([
+                    'offer_id' => $offer->id,
+                    'recipient_id' => $recipient->id,
+                    'code' => Str::random(8),
+                ]);
+
+                $vCode->save();
+
+            } else {
+                $errors++;
+            }
+        }
+
+        if ($errors == 0) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Successfully added codes to recipients',
+            ]);
+        }
     }
 
     /**

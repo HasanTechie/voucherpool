@@ -35,7 +35,7 @@ class GenerateFakeData extends Seeder
         for ($i = 0; $i < 9; $i++) {
             $offer = DB::table('offers')
                 ->insertGetId([
-                    'name' => $faker->sentence(5),
+                    'name' => $faker->sentence(2),
                     'discount' => $faker->numberBetween(1, 19) * 5,
                     'expiry' => $faker->dateTimeBetween('-1 months', '+9 months'),
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
