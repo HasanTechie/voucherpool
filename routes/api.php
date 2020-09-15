@@ -21,13 +21,13 @@ use App\Http\Controllers\CodeController;
 Route::get('/codes/{email}', [CodeController::class, 'listOfCodesByEmail']);
 
 /*
- * Sample POST API : http://voucherpool.test/api/code/generate?offer_name=<offer-name>&discount=<discount>&expiry=<expiry>
+ * Sample POST API : http://voucherpool.test/api/codes/generate?offer_name=<offer-name>&discount=<discount>&expiry=<expiry>
  */
-Route::post('/code/generate', [CodeController::class, 'codeGeneration']);
+Route::post('/codes/generate', [CodeController::class, 'codeGeneration']);
 
 /*
- * Sample POST API : http://voucherpool.test/api/code/activate/?email=<email>&code=<code>
+ * Sample POST API : http://voucherpool.test/api/codes/activate/?email=<email>&code=<code>
  */
-Route::post('/code/activate', [CodeController::class, 'codeActivationByEmailAndCode']);
+Route::post('/codes/activate', [CodeController::class, 'codeActivationByEmailAndCode']);
 
 
