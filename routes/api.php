@@ -24,9 +24,9 @@ Route::get('/codes/{email}', [CodeController::class, 'listOfCodesByEmail']);
  * Sample POST API : http://voucherpool.test/api/codeActivation?email=lboyer@hotmail.com&code=LHtzDTTv
  */
 
-Route::post('/codeActivation/', [CodeController::class, 'codeActivationByEmailAndCode']);
+Route::post('/code/activate', [CodeController::class, 'codeActivationByEmailAndCode']);
 
 /*
  * Sample POST API : http://voucherpool.test/api/codeGeneration?offer_name=Very Amazing Offer&discount=79&expiry=19/01/2021
  */
-Route::post('/codeGeneration/', [CodeController::class, 'codeGeneration']);
+Route::post('/code/generate', [CodeController::class, 'codeGeneration']);

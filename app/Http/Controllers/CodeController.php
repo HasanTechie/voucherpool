@@ -99,8 +99,7 @@ class CodeController extends Controller
             ], 400);
         }
 
-        DB::table('codes')
-            ->where('id', $vCode->id)
+        Code::where('id', $vCode->id)
             ->update(['used_on' => Carbon::now()]);
 
         return response()->json([
@@ -121,20 +120,23 @@ class CodeController extends Controller
             'discount' => $request->input('discount'),
             'expiry' => Carbon::createFromFormat('d/m/Y', $request->input('expiry')),
         ]);
+
         $offer->save();
 
         $recipients = Recipient::get();
 
         $errors = 0;
+        $vCode = [];
+
         foreach ($recipients as $recipient) {
-            $vCode = new Code([
+            $vCode [] = [
                 'offer_id' => $offer->id,
                 'recipient_id' => $recipient->id,
                 'code' => Str::random(8),
-            ]);
-
-            $vCode->save();
+            ];
         }
+
+        Code::insert($vCode);
 
         if ($errors == 0) {
             return response()->json([
