@@ -13,19 +13,19 @@
 
   Sample **POST** API for testing this functionality. 
 
-    `http://voucherpool.test/api/codeGeneration?offer_name=VeryAmazingOffer&discount=79&expiry=19/01/2021`
+    `http://voucherpool.test/api/code/generate?offer_name=<offer-name>&discount=<discount>&expiry=<expiry>`
 
 - Provide an endpoint, reachable via HTTP, which receives a Voucher Code and Email and validates
   the Voucher Code. In Case it is valid, return the Percentage Discount and set the date of usage.
   
   Sample **POST** API for testing this functionality. 
 
-    `http://voucherpool.test/api/codeActivation?email=lboyer@hotmail.com&code=LHtzDTTv`
+    `http://voucherpool.test/api/code/activate/?email=<email>&code=<code>`
     
  - Extra: For a given Email, return all his valid Voucher Codes with the Name of the Special Offer.
     
    Sample **GET** API for testing this functionality. 
     
-      `http://voucherpool.test/api/codes/lboyer@hotmail.com`
+      `http://voucherpool.test/api/codes/<email>`
       
   

@@ -16,17 +16,18 @@ use App\Http\Controllers\CodeController;
 */
 
 /*
- * Sample GET API : http://voucherpool.test/api/codes/lboyer@hotmail.com
+ * Sample GET API : http://voucherpool.test/api/codes/<email>>
  */
 Route::get('/codes/{email}', [CodeController::class, 'listOfCodesByEmail']);
 
 /*
- * Sample POST API : http://voucherpool.test/api/codeActivation?email=lboyer@hotmail.com&code=LHtzDTTv
- */
-
-Route::post('/code/activate', [CodeController::class, 'codeActivationByEmailAndCode']);
-
-/*
- * Sample POST API : http://voucherpool.test/api/codeGeneration?offer_name=Very Amazing Offer&discount=79&expiry=19/01/2021
+ * Sample POST API : http://voucherpool.test/api/code/generate?offer_name=<offer-name>&discount=<discount>&expiry=<expiry>
  */
 Route::post('/code/generate', [CodeController::class, 'codeGeneration']);
+
+/*
+ * Sample POST API : http://voucherpool.test/api/code/activate/?email=<email>&code=<code>
+ */
+Route::post('/code/activate', [CodeController::class, 'codeActivationByEmailAndCode']);
+
+
